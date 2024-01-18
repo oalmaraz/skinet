@@ -93,6 +93,12 @@ namespace API.Controllers
         [HttpPost("Register")]
         public async Task<ActionResult<UserDto>>Register(RegisterDto   registerDto)
         {
+            if(CheckEmailExistsAsync(registerDto.Email).Result.Value)
+            {
+                return new BadRequestObjectResult(new ApiValidationErrorResponse{Errors = new [] 
+                {"EmailTokenProvider address is UseExtensions"}});
+            }
+
             var user = new AppUser
             {
                 DisplayName = registerDto.DisplayName,
